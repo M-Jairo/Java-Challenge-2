@@ -18,6 +18,11 @@ public class Libro {
     @OneToMany(mappedBy = "libros", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Autor> autor;
 
+    //@ManyToOne
+    //@JoinColumn(name = "autor_id")
+    //private Autor autor;
+
+
     private String idiomas;
     private Double nDeDescargas;
 
@@ -82,5 +87,7 @@ public class Libro {
         autor.forEach(e -> e.setLibros(this));
         this.autor = autor;
     }
+
+
 
 }

@@ -15,6 +15,9 @@ public class Autor {
     @ManyToOne
     private Libro libros;
 
+    //@OneToMany(mappedBy = "autor")
+    //private List<Libro> libros;
+
     private String nombre;
     private Integer fechaDeNacimiento;
     private Integer fechaDeFallecimiento;
@@ -46,6 +49,10 @@ public class Autor {
     public void setLibros(Libro libros) {
         this.libros = libros;
     }
+
+    //public void setLibros(List<Libro> libros) {
+    //    this.libros = libros;
+    //}
 
     public Long getId() {
         return Id;

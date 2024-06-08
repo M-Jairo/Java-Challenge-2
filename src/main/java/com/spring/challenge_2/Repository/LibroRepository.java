@@ -12,4 +12,9 @@ public interface LibroRepository extends JpaRepository<Libro,Long> {
 
     @Query("SELECT a FROM Autor a")
     List<Autor> autores();
+
+    @Query("SELECT a FROM Autor a WHERE :fechaElegida BETWEEN a.fechaDeNacimiento AND a.fechaDeFallecimiento")
+    List<Autor> autores_vivos(Integer fechaElegida);
+
+    List<Libro> findByIdiomasContainsIgnoreCase(String idiomaElegido);
 }

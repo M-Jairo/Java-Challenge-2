@@ -8,8 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages={"com.example.something", "com.example.application"})
 
-//(exclude = {DataSourceAutoConfiguration.class})
-
 public class Challenge2Application implements CommandLineRunner {
 
 	@Autowired

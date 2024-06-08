@@ -17,6 +17,7 @@ public class menu{
     private String URL_BASE = "http://gutendex.com/books/";
     private obtenerDatos consumo = new obtenerDatos();
     private combierteDatos conversor = new combierteDatos();
+    private List<Autor> autores_registrados;
 
     private LibroRepository repo;
     public menu(LibroRepository repository) {
@@ -49,6 +50,12 @@ public class menu{
                 case 3:
                     autoresRegistrados();
                     break;
+                case 4:
+                    autoresVivos();
+                    break;
+                case 5:
+                    librosPorIdioma();
+                    break;
 
                 case 0:
                     System.out.println("Cerrando la aplicación...");
@@ -58,7 +65,10 @@ public class menu{
             }
         }
     }
-        private void buscarLibro() {
+
+
+
+    private void buscarLibro() {
             System.out.println("que queres buscar: ");
             String buscar = teclado.next();
 
@@ -81,7 +91,6 @@ public class menu{
                         .collect(Collectors.toList());
                 System.out.println(datosAutor);
 
-                //Autor autor = new Autor(datosAutor);
                 libro.setAutor(datosAutor);
                 repo.save(libro);
 
@@ -95,14 +104,58 @@ public class menu{
             System.out.println("libros registrados: ");
 
             List<Libro> libros_registrados = repo.findAll();
-            libros_registrados.forEach(System.out::println);
+            libros_registrados.forEach(s ->
+                    System.out.println("----------------" +
+                            "\nLibro: " + s.getTitulo()
+                            +"\nAutor: " + s.getAutor().getFirst().getNombre()+
+                            "\nIdioma: " + s.getIdiomas() +
+                            "\nN° de descargas: " + s.getnDeDescargas()+
+                            "\n----------------" ));
     }
     private void autoresRegistrados(){
         System.out.println("autores registrados: ");
 
-        List<Autor> autores_registrados = repo.autores();
-        autores_registrados.forEach(System.out::println);
+        autores_registrados = repo.autores();
+        autores_registrados.forEach(a ->
+                System.out.println("----------------" +
+                        "\nNombre: " + a.getNombre()
+                        +"\nFecha De Nacimiento: " + a.getFechaDeNacimiento()+
+                        "\nFecha De Fallecimiento: " + a.getFechaDeFallecimiento() +
+                        "\nLibros: " + a.getLibros().getTitulo() +
+                        "\n----------------"));
     }
 
+    private void autoresVivos(){
+        System.out.println("ingrese año: ");
+        Integer fechaElegida = teclado.nextInt();
+
+        List<Autor> autoresVivos = repo.autores_vivos(fechaElegida);
+        autoresVivos.forEach(a ->
+                System.out.println("----------------" +
+                "\nNombre: " + a.getNombre()
+                +"\nFecha De Nacimiento: " + a.getFechaDeNacimiento()+
+                "\nFecha De Fallecimiento: " + a.getFechaDeFallecimiento() +
+                "\nLibros: " + a.getLibros().getTitulo() +
+                "\n----------------"));
+    }
+
+    private void librosPorIdioma() {
+        System.out.println(
+                "Ingrese idioma: \n" +
+                "es = Español\n" +
+                "en = Ingles\n" +
+                "fr = Frances\n" +
+                "pt = Portuges");
+        String idiomaElegido = teclado.next();
+        List<Libro> librosIdioma = repo.findByIdiomasContainsIgnoreCase(idiomaElegido);
+        librosIdioma.forEach(s ->
+                System.out.println("----------------" +
+                        "\nLibro: " + s.getTitulo()
+                        +"\nAutor: " + s.getAutor().getFirst().getNombre()+
+                        "\nIdioma: " + s.getIdiomas() +
+                        "\nN° de descargas: " + s.getnDeDescargas()+
+               "\n----------------" ));
+
+    }
 
 }
